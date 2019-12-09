@@ -17,7 +17,8 @@ public class CensusAnalyser {
                 Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
                 ){
 
-            Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader,IndiaCensusCSV.class);
+            ICSVBuilder icsvBuilder= CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaCensusCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
 
             int namOfEateries = getCount(censusCSVIterator);
 
@@ -26,6 +27,8 @@ public class CensusAnalyser {
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
 
     }
@@ -36,7 +39,8 @@ public class CensusAnalyser {
                 Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
         ) {
 
-            Iterator<IndiaStateCodeCSV> censusCSVIterator = new OpenCSVBuilder().getCSVFileIterator(reader,IndiaStateCodeCSV.class);
+            ICSVBuilder icsvBuilder= CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaStateCodeCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
 
             int namOfEateries =getCount(censusCSVIterator);
 
@@ -44,6 +48,8 @@ public class CensusAnalyser {
 
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
 
