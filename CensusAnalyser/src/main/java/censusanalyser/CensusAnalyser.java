@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
@@ -18,11 +19,9 @@ public class CensusAnalyser {
                 ){
 
             ICSVBuilder icsvBuilder= CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            List<IndiaCensusCSV> censusCSVList = icsvBuilder.getCSVFileList(reader,IndiaCensusCSV.class);
 
-            int namOfEateries = getCount(censusCSVIterator);
-
-            return namOfEateries;
+            return censusCSVList.size();
 
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
