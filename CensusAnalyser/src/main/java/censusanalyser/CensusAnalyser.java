@@ -43,9 +43,8 @@ public class CensusAnalyser {
         ) {
 
             Iterator<IndiaStateCodeCSV> censusCSVIterator = this.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
-            Iterable<IndiaStateCodeCSV> csvIterable = () -> censusCSVIterator;
 
-            int namOfEateries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+            int namOfEateries =getCount(censusCSVIterator);
 
             return namOfEateries;
 
@@ -74,5 +73,13 @@ public class CensusAnalyser {
         }
     }
 
+    private <E> int getCount(Iterator<E> iterator)
+    {
+        Iterable<E> csvIterable = () -> iterator;
+
+        int namOfEateries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+
+        return namOfEateries;
+    }
 
 }
