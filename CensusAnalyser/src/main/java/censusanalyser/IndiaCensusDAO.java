@@ -13,9 +13,9 @@ public class IndiaCensusDAO {
 
     public IndiaCensusDAO(IndiaCensusCSV indiaCensusCSV) {
 
-        state=indiaCensusCSV.state;
-        areaInSqKm=indiaCensusCSV.areaInSqKm;
-        population=indiaCensusCSV.population;
-        densityPerSqKm=indiaCensusCSV.densityPerSqKm;
+        state = indiaCensusCSV.state;
+        areaInSqKm = indiaCensusCSV.areaInSqKm;
+        population = indiaCensusCSV.population;
+        densityPerSqKm = indiaCensusCSV.densityPerSqKm;
     }
 }
