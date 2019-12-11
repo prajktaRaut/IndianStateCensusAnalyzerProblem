@@ -184,4 +184,17 @@ public class CensusAnalyserTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void givenIndiaCensusData_WhenSortedOnDensity_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String sortedCensusData = null;
+        try {
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.DensityPerSqKm);
+            IndiaCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Bihar", CensusCSV[0].state);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
