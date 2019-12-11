@@ -20,11 +20,7 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
 
-    List<IndiaCensusDAO> censusList=null;
-
-    public CensusAnalyser() {
-        this.censusList =new ArrayList<IndiaCensusDAO>();
-    }
+    List<IndiaCensusDAO> censusList=new ArrayList<IndiaCensusDAO>();;
 
     public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException {
 
@@ -34,11 +30,18 @@ public class CensusAnalyser {
 
             ICSVBuilder icsvBuilder= CSVBuilderFactory.createCommonCSVBuilder();
 
-            Iterator<IndiaStateCodeCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
+            Iterator<IndiaCensusCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
 
-                int namOfEateries =getCount(censusCSVIterator);
+            Iterable<IndiaCensusCSV> csvIterable=()-> censusCSVIterator;
 
-                return namOfEateries;
+            StreamSupport.stream(csvIterable.spliterator(),false).forEach(censusCSV->censusList.add(new IndiaCensusDAO(censusCSV)));
+
+            while (censusCSVIterator.hasNext())
+            {
+                this.censusList.add(new IndiaCensusDAO(censusCSVIterator.next()));
+
+            }
+            return censusList.size();
 
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
