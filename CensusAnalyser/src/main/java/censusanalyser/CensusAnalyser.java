@@ -1,8 +1,12 @@
 package censusanalyser;
 
+
+import com.bridgelabzs.CSVBuilderException;
+import com.bridgelabzs.CSVBuilderFactory;
+import com.bridgelabzs.ICSVBuilder;
 import com.google.gson.Gson;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -22,47 +26,40 @@ public class CensusAnalyser {
         this.censusList =new ArrayList<IndiaCensusDAO>();
     }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
+    public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException {
 
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
                 ){
 
-            ICSVBuilder icsvBuilder= CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> csvFileIterator=icsvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            ICSVBuilder icsvBuilder= CSVBuilderFactory.createCommonCSVBuilder();
 
-            while (csvFileIterator.hasNext())
-            {
-                this.censusList.add(new IndiaCensusDAO(csvFileIterator.next()));
-            }
-            return censusList.size();
+            Iterator<IndiaStateCodeCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
+
+                int namOfEateries =getCount(censusCSVIterator);
+
+                return namOfEateries;
 
         } catch (IOException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),e.type.name());
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
-
     }
 
-    public int loadIndiaStateCode(String csvFilePath) throws CensusAnalyserException {
+    public int loadIndiaStateCode(String csvFilePath) throws CSVBuilderException {
 
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
         ) {
-
-            ICSVBuilder icsvBuilder= CSVBuilderFactory.createCSVBuilder();
+            ICSVBuilder icsvBuilder= CSVBuilderFactory.createOpenCSVBuilder();
             Iterator<IndiaStateCodeCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
 
             int namOfEateries =getCount(censusCSVIterator);
 
             return namOfEateries;
 
-        } catch (IOException e) {
-            throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),e.type.name());
+        } catch (IOException | com.bridgelabzs.CSVBuilderException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 
@@ -75,20 +72,17 @@ public class CensusAnalyser {
         return namOfEateries;
     }
 
-    public String getStateWiseSortedCensusData() throws CensusAnalyserException {
-
+    public String getStateWiseSortedCensusData() throws CSVBuilderException {
 
             if (censusList == null || censusList.size()==0)
             {
-
-                throw new CensusAnalyserException("No Census Data",CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+                throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
             }
 
             Comparator<IndiaCensusDAO> censusCSVComparator=Comparator.comparing(census->census.state);
             this.sort(censusCSVComparator);
             String sortedStateCensusJson=new Gson().toJson(this.censusList);
             return sortedStateCensusJson;
-
     }
 
     private void sort(Comparator<IndiaCensusDAO> censusCSVComparator) {
@@ -104,14 +98,9 @@ public class CensusAnalyser {
                 {
                     this.censusList.set(j,census2);
                     this.censusList.set(j+1,census1);
-
                 }
-
             }
-
         }
-
     }
-
 
 }
