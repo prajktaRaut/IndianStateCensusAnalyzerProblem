@@ -21,7 +21,7 @@ public class CensusAnalyser {
     public CensusAnalyser() {
         this.fieldComparatorMap.put(StateCensusField.State, Comparator.comparing(field -> field.state));
         this.fieldComparatorMap.put(StateCensusField.Population, Comparator.comparing(field -> field.population,Comparator.reverseOrder()));
-        this.fieldComparatorMap.put(StateCensusField.AreaInSqKm, Comparator.comparing(field -> field.areaInSqKm));
+        this.fieldComparatorMap.put(StateCensusField.AreaInSqKm, Comparator.comparing(field -> field.areaInSqKm,Comparator.reverseOrder()));
         this.fieldComparatorMap.put(StateCensusField.DensityPerSqKm, Comparator.comparing(field -> field.densityPerSqKm));
     }
 
