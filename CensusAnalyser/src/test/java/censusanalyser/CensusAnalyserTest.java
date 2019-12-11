@@ -167,8 +167,9 @@ public class CensusAnalyserTest {
             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.Population);
             IndiaCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
-            Assert.assertEquals(607688, CensusCSV[0].population);
+            Assert.assertEquals("Uttar Pradesh", CensusCSV[0].state);
         } catch (CSVBuilderException e) {
         }
     }
+
 }
