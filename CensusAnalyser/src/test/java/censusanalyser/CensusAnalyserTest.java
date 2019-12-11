@@ -110,4 +110,19 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM, e.type);
         }
     }
+
+    @Test
+    public void givenIndianStateCodeCSVFile_WithWrongHeader_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.loadIndiaStateCode(STATE_CODE_CSV_FILE_FOR_WRONG_DELIMITER);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM, e.type);
+        }
+    }
+
+
+
 }
