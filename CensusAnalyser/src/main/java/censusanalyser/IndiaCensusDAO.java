@@ -21,13 +21,13 @@ public class IndiaCensusDAO {
 
     }
 
-    public IndiaCensusDAO(USCesnsusCSV cesnsusCSV)
+    public IndiaCensusDAO(USCensusCSV censusCSV)
     {
-        state=cesnsusCSV.State;
-        stateId=cesnsusCSV.stateId;
-        totalArea=cesnsusCSV.totalArea;
-        populationdensity=cesnsusCSV.populationDensity;
-        population=cesnsusCSV.population;
+        state=censusCSV.State;
+        stateId=censusCSV.stateId;
+        totalArea=censusCSV.totalArea;
+        populationdensity=censusCSV.populationDensity;
+        population=censusCSV.population;
 
     }
 

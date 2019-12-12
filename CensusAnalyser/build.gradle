@@ -16,4 +16,10 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     compile 'com.google.code.gson:gson:2.2.+'
     compile "com.opencsv:opencsv:4.0"
+    compile "org.apache.commons:commons-csv:1.7"
+    compile(files("/home/admin1/Documents/JarDemo/out/artifacts/JarDemo_jar/JarDemo.jar"))
+
+
 }
+
+
