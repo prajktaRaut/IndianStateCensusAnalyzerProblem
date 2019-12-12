@@ -74,4 +74,18 @@ public class CensusAnalyser {
             }
         }
     }
+
+    public int loadUSCensusData(String usCensusCsvFilePath) throws CSVBuilderException {
+
+        try (Reader reader = Files.newBufferedReader(Paths.get(usCensusCsvFilePath));) {
+            ICSVBuilder icsvBuilder = CSVBuilderFactory.createOpenCSVBuilder();
+            Iterator<USCesnsusCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
+            Iterable<USCesnsusCSV> csvIterable = () -> censusCSVIterator;
+            StreamSupport.stream(csvIterable.spliterator(), false).forEach(censusCSV -> censusStateMap.put(censusCSV.State, new IndiaCensusDAO(censusCSV)));
+            return censusStateMap.size();
+        } catch (IOException | RuntimeException e) {
+
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
+        }
+    }
 }
