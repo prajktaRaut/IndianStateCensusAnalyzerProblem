@@ -25,25 +25,11 @@ public class CensusAnalyser {
         this.fieldComparatorMap.put(StateCensusField.DensityPerSqKm, Comparator.comparing(field -> field.densityPerSqKm,Comparator.reverseOrder()));
     }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException {
+    public int loadIndiaCensusData(String... csvFilePath) throws CSVBuilderException {
 
-       censusStateMap=new CensusLoader().loadCensusData(csvFilePath,IndiaCensusCSV.class);
+       censusStateMap=new CensusLoader().loadCensusData(IndiaCensusCSV.class,csvFilePath);
        return censusStateMap.size();
 
-    }
-
-    public int loadIndiaStateCode(String csvFilePath) throws CSVBuilderException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-            ICSVBuilder icsvBuilder = CSVBuilderFactory.createOpenCSVBuilder();
-            Iterator<IndiaStateCodeCSV> censusCSVIterator = icsvBuilder.getCSVFileIterator(reader, IndiaStateCodeCSV.class);
-            Iterable<IndiaStateCodeCSV> csvIterable=()->censusCSVIterator;
-           StreamSupport.stream(csvIterable.spliterator(),false)
-                   .filter(csvState->censusStateMap.get(csvState.state)!=null)
-                   .forEach(csvState->censusStateMap.get(csvState.state).stateCode=csvState.stateCode);
-            return censusStateMap.size();
-        } catch (IOException | RuntimeException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
-        }
     }
 
     public String getSortedCensusDataByGenericSort(StateCensusField field) throws CSVBuilderException {
@@ -69,9 +55,9 @@ public class CensusAnalyser {
         }
     }
 
-    public int loadUSCensusData(String usCensusCsvFilePath) throws CSVBuilderException {
+    public int loadUSCensusData(String... usCensusCsvFilePath) throws CSVBuilderException {
 
-        censusStateMap=new CensusLoader().loadCensusData(usCensusCsvFilePath,USCensusCSV.class);
+        censusStateMap=new CensusLoader().loadCensusData(USCensusCSV.class,usCensusCsvFilePath);
         return censusStateMap.size();
 
     }
