@@ -48,6 +48,9 @@ public class IndiaStateCodeCSV {
         this.stateCode = stateCode;
     }
 
+    public IndiaStateCodeCSV() {
+    }
+
     @Override
     public String toString() {
         return "IndiaStateCodeCSV{" +

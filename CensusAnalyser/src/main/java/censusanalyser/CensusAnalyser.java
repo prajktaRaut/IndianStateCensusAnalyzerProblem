@@ -43,17 +43,4 @@ public class CensusAnalyser {
         String sortedStateCensusJson = new Gson().toJson(censusDTO);
         return sortedStateCensusJson;
     }
-
-    private void sort(List<IndiaCensusDAO> censusDAOS, Comparator<IndiaCensusDAO> censusCSVComparator) {
-        for (int i = 0; i < censusDAOS.size() - 1; i++) {
-            for (int j = 0; j < censusDAOS.size() - i - 1; j++) {
-                IndiaCensusDAO census1 = censusDAOS.get(j);
-                IndiaCensusDAO census2 = censusDAOS.get(j + 1);
-                if (censusCSVComparator.compare(census1, census2) > 0) {
-                    censusDAOS.set(j, census2);
-                    censusDAOS.set(j + 1, census1);
-                }
-            }
-        }
-    }
 }

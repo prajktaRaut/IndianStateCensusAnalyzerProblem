@@ -2,6 +2,6 @@ package censusanalyser;
 
 public enum StateCensusField {
 
-    State,Population,AreaInSqKm,DensityPerSqKm
+    State,Population,AreaInSqKm,DensityPerSqKm,PopulationDensity
 
 }
