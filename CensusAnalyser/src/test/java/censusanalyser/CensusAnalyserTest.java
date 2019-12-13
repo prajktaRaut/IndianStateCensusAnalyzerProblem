@@ -70,7 +70,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA, CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA,CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -97,6 +97,7 @@ public class CensusAnalyserTest {
             IndiaCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh", CensusCSV[0].state);
         } catch (CSVBuilderException e) {
+            e.printStackTrace();
         }
     }
 
@@ -201,15 +202,11 @@ public class CensusAnalyserTest {
 
     @Test
     public void givenUSCensusData_ShouldReturnCorrectRecord() {
-
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        int censusDataCnt = 0;
         try {
-            censusDataCnt = censusAnalyser.loadCensusData(CensusAnalyser.Country.US, US_CENSUS_CSV_FILE_PATH);
+            int censusDataCnt = censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(51, censusDataCnt);
         } catch (CSVBuilderException e) {
         }
-
     }
-
 }
