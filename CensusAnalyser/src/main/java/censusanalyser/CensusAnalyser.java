@@ -18,24 +18,22 @@ public class CensusAnalyser {
     Map<String, IndiaCensusDAO> censusStateMap = new HashMap<>();
     Map<StateCensusField, Comparator<IndiaCensusDAO>> fieldComparatorMap = new HashMap<>();
 
-    public enum Country
-    {
-        INDIA,US
+    public enum Country {
+        INDIA, US
     }
 
     public CensusAnalyser() {
         this.fieldComparatorMap.put(StateCensusField.State, Comparator.comparing(field -> field.state));
-        this.fieldComparatorMap.put(StateCensusField.Population, Comparator.comparing(field -> field.population,Comparator.reverseOrder()));
-        this.fieldComparatorMap.put(StateCensusField.AreaInSqKm, Comparator.comparing(field -> field.areaInSqKm,Comparator.reverseOrder()));
-        this.fieldComparatorMap.put(StateCensusField.DensityPerSqKm, Comparator.comparing(field -> field.densityPerSqKm,Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(StateCensusField.Population, Comparator.comparing(field -> field.population, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(StateCensusField.AreaInSqKm, Comparator.comparing(field -> field.areaInSqKm, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(StateCensusField.DensityPerSqKm, Comparator.comparing(field -> field.densityPerSqKm, Comparator.reverseOrder()));
     }
 
-    public int loadIndiaCensusData(Country country,String... csvFilePath) throws CSVBuilderException {
+    public int loadCensusData(Country country, String... csvFilePath) throws CSVBuilderException {
 
-        IndiaCensusAdapter indiaCensusAdapter=new IndiaCensusAdapter();
-       censusStateMap=indiaCensusAdapter.loadCensusData(country,csvFilePath);
-       return censusStateMap.size();
-
+        CensusAdapter classObject = CensusAdapterFactory.getClassObject(country);
+        Map<String, IndiaCensusDAO> censusDAOMap = classObject.loadCensusData(country, csvFilePath);
+        return censusDAOMap.size();
     }
 
     public String getSortedCensusDataByGenericSort(StateCensusField field) throws CSVBuilderException {
@@ -59,12 +57,5 @@ public class CensusAnalyser {
                 }
             }
         }
-    }
-
-    public int loadUSCensusData(String... usCensusCsvFilePath) throws CSVBuilderException {
-
-        censusStateMap=new CensusLoader().loadCensusData(USCensusCSV.class,usCensusCsvFilePath);
-        return censusStateMap.size();
-
     }
 }
