@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Map;
+
 public class CensusAnalyserTest {
 
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
@@ -206,6 +208,19 @@ public class CensusAnalyserTest {
         try {
             int censusDataCnt = censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(51, censusDataCnt);
+        } catch (CSVBuilderException e) {
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnState_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String sortedCensusData = null;
+        try {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.State);
+            USCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Alabama", CensusCSV[0].state);
         } catch (CSVBuilderException e) {
         }
     }
