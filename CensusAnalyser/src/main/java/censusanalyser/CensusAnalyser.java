@@ -18,6 +18,11 @@ public class CensusAnalyser {
     Map<String, IndiaCensusDAO> censusStateMap = new HashMap<>();
     Map<StateCensusField, Comparator<IndiaCensusDAO>> fieldComparatorMap = new HashMap<>();
 
+    public enum Country
+    {
+        INDIA,US
+    }
+
     public CensusAnalyser() {
         this.fieldComparatorMap.put(StateCensusField.State, Comparator.comparing(field -> field.state));
         this.fieldComparatorMap.put(StateCensusField.Population, Comparator.comparing(field -> field.population,Comparator.reverseOrder()));
@@ -25,9 +30,10 @@ public class CensusAnalyser {
         this.fieldComparatorMap.put(StateCensusField.DensityPerSqKm, Comparator.comparing(field -> field.densityPerSqKm,Comparator.reverseOrder()));
     }
 
-    public int loadIndiaCensusData(String... csvFilePath) throws CSVBuilderException {
+    public int loadIndiaCensusData(Country country,String... csvFilePath) throws CSVBuilderException {
 
-       censusStateMap=new CensusLoader().loadCensusData(IndiaCensusCSV.class,csvFilePath);
+        IndiaCensusAdapter indiaCensusAdapter=new IndiaCensusAdapter();
+       censusStateMap=indiaCensusAdapter.loadCensusData(country,csvFilePath);
        return censusStateMap.size();
 
     }
