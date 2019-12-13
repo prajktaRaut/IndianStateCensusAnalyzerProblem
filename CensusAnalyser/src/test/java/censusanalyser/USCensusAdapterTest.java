@@ -31,7 +31,7 @@ public class USCensusAdapterTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            usCensusAdapter.loadCensusData(CensusAnalyser.Country.INDIA, WRONG_US_CENSUS_CSV_FILE_PATH);
+            usCensusAdapter.loadCensusData(CensusAnalyser.Country.US, WRONG_US_CENSUS_CSV_FILE_PATH);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -42,7 +42,7 @@ public class USCensusAdapterTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            usCensusAdapter.loadCensusData(CensusAnalyser.Country.INDIA, WRONG_US_CENSUS_CSV_FILE_PATH);
+            usCensusAdapter.loadCensusData(CensusAnalyser.Country.US, WRONG_US_CENSUS_CSV_FILE_PATH);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -53,7 +53,7 @@ public class USCensusAdapterTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            usCensusAdapter.loadCensusData(CensusAnalyser.Country.INDIA, CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
+            usCensusAdapter.loadCensusData(CensusAnalyser.Country.US, CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -64,7 +64,7 @@ public class USCensusAdapterTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            usCensusAdapter.loadCensusData(CensusAnalyser.Country.INDIA, CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
+            usCensusAdapter.loadCensusData(CensusAnalyser.Country.US, CENSUS_FILE_FOR_WRONG_DELIMITER_OR_HEADER);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
