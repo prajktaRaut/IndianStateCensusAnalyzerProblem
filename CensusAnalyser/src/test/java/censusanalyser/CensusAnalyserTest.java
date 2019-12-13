@@ -276,4 +276,17 @@ public class CensusAnalyserTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnPopulationWithDensity_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String sortedCensusData = null;
+        try {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.Result);
+            USCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Connecticut", CensusCSV[CensusCSV.length-1].state);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
