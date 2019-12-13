@@ -224,4 +224,17 @@ public class CensusAnalyserTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String sortedCensusData = null;
+        try {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.Population);
+            USCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("California", CensusCSV[0].state);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
