@@ -264,4 +264,16 @@ public class CensusAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIndiaCensusData_WhenSortedOnPopulationWithDensity_ShouldReturnSortedResult() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        String sortedCensusData = null;
+        try {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA, INDIA_CENSUS_CSV_FILE_PATH, INDIA_STATE_CSV_FILE_PATH);
+            sortedCensusData = censusAnalyser.getSortedCensusDataByGenericSort(StateCensusField.Result);
+            IndiaCensusCSV[] CensusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("West Bengal", CensusCSV[CensusCSV.length-1].state);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
